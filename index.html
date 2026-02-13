@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Valentine's Day, My Love ❤️</title>
+  <style>
+    /* [Previous styles unchanged - keeping it short] */
+    body { margin: 0; padding: 0; font-family: 'Arial, sans-serif'; background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500); height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+    h1 { font-size: 3em; margin-bottom: 20px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    .proposal { font-size: 2em; margin-bottom: 30px; text-align: center; }
+    .yes-btn, .no-btn { background: #ff4757; color: white; border: none; padding: 15px 30px; font-size: 1.2em; border-radius: 50px; cursor: pointer; margin: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.3s; }
+    .yes-btn:hover, .no-btn:hover { transform: scale(1.1); background: #ff3742; }
+    .taunt { font-size: 1.5em; margin-top: 20px; opacity: 0; transition: opacity 0.5s, transform 0.5s; color: #ffd700; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+    .taunt.show { opacity: 1; transform: scale(1.1); }
+    .hearts { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+    .heart { position: absolute; font-size: 30px; color: #ff69b4; cursor: pointer; animation: float 6s infinite linear; transition: transform 0.2s; }
+    @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } }
+    .message { font-size: 1.5em; opacity: 0; transition: opacity 1s; margin-top: 20px; }
+    .show { opacity: 1; }
+    #confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; }
+    .success { background: #00b894 !important; font-size: 1.5em !important; animation: bounce 1s infinite; }
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+  <div id="confetti"></div>
+  
+  <h1>Happy Valentine's Day, Baby! ❤️</h1>
+  <div class="proposal">Will you be mine... my babylaloves? 💕</div>
+  
+  <button class="yes-btn" onclick="sayYes()">Yes 😍</button>
+  <button class="no-btn" id="noBtn" onclick="sayNo()">No 😢</button>
+  
+  <div class="taunt" id="taunt1">C'mon babyyyy... you know the answer poooo </div>
+  <div class="taunt" id="taunt2">Still pretending, ha? 😏</div>
+  <div class="taunt" id="taunt3"> BABEE HMPPPP! </div>
+  <div class="taunt" id="taunt4">YES NAAA IKAW WALA KA CHOICE :(((</div>
+  
+  <div class="message" id="message">
+    YAYYYYYYYYYY! 💖 OPEN IT!! <br>
+    <a href="love-letter.html" style="color: gold; font-size: 1.3em; text-decoration: none;">✨ Open my love letter for you...</a>
+  </div>
+
+  <script>
+    let noClicks = 0;
+    
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '💖';
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      heart.onclick = () => explodeConfetti(heart);
+      document.getElementById('hearts').appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 300);
+
+    function explodeConfetti(clickedHeart) {
+      clickedHeart.style.transform = 'scale(2) rotate(180deg)';
+      for (let i = 0; i < 20; i++) {
+        const conf = document.createElement('div');
+        conf.innerHTML = ['❤️', '💕', '💖', '💗', '✨'][Math.floor(Math.random()*5)];
+        conf.style.cssText = `position: fixed; left: ${clickedHeart.offsetLeft}px; top: ${clickedHeart.offsetTop}px; font-size: ${Math.random() * 20 + 10}px; pointer-events: none; animation: float 2s ease-out forwards;`;
+        document.body.appendChild(conf);
+        setTimeout(() => conf.remove(), 2000);
+      }
+    }
+
+    function sayYes() {
+      document.getElementById('message').classList.add('show');
+      document.getElementById('noBtn').style.display = 'none';
+      document.querySelector('.yes-btn').classList.add('success');
+      
+      // MASSIVE celebration after 3 seconds, then navigate
+      setTimeout(() => {
+        for (let i = 0; i < 100; i++) explodeConfetti({offsetLeft: 50, offsetTop: 50});
+        setTimeout(() => {
+          window.location.href = 'love-letter.html';
+        }, 2000);
+      }, 1000);
+    }
+
+    function sayNo() {
+      noClicks++;
+      const yesBtn = document.querySelector('.yes-btn');
+      const scale = 1 + (noClicks * 0.3);
+      yesBtn.style.transform = `scale(${scale})`;
+      yesBtn.style.fontSize = `${1.2 + (noClicks * 0.1)}em`;
+      yesBtn.style.fontWeight = 'bold';
+      
+      const noBtn = document.getElementById('noBtn');
+      noBtn.style.transform = `translateX(${Math.random() * 200 - 100}px) rotate(${Math.random() * 20 - 10}deg)`;
+      
+      if (noClicks <= 4) {
+        document.getElementById(`taunt${noClicks}`).classList.add('show');
+        setTimeout(() => document.getElementById(`taunt${noClicks}`).classList.remove('show'), 2000);
+      }
+      
+      if (noClicks === 3) {
+        for (let i = 0; i < 30; i++) setTimeout(createHeart, i * 100);
+      }
+      
+      setTimeout(() => {
+        noBtn.style.transform = '';
+        alert(`No. ${noClicks} 😏 | YES NA KASI IKAWWW BABY :((((`);
+      }, 300);
+    }
+  </script>
+</body>
+</html>
